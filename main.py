@@ -1,7 +1,9 @@
 from aiogram.utils import executor
 
+import config
 from create_bot import dp
-from handlers import other_handlers
+from database import database
+from handlers import other_handlers, admin_handlers, client_handlers
 
 
 async def on_startup(dp):
@@ -15,7 +17,12 @@ async def on_shutdown(dp):
 
 
 # Зарегистрировать хендлеры
+admin_handlers.register_handlers(dp)
+client_handlers.reg_handlers(dp)
 other_handlers.reg_handlers(dp)
+
+# Создать базу данных если её нет
+database.create_db(config.ADMIN_ID, -1001556943381)
 
 
 # Запуск бота в формате polling
